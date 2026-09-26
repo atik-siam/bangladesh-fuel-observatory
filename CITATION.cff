@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "Bangladesh Fuel Observatory"
+message: "Please cite Bangladesh Fuel Observatory when reusing the project, methods, or bundled data snapshot."
+type: software
+abstract: "A reproducible market-linked fuel-price observatory for Bangladesh combining refined-product benchmarks, USD/BDT, transparent calibration and time-aware validation."
+authors:
+  - family-names: Jawed
+    given-names: Siam
+version: 4.0.0
+date-released: 2026-09-27
+license: MIT
