@@ -109,12 +109,14 @@ def parse_bangladesh_bank_fx(url: str) -> pd.DataFrame:
     raise RuntimeError(f"Could not find Bangladesh Bank 05:00 PM USD/BDT table at {url}")
 
 
-def parse_fexant_fx(url: str) -> pd.DataFrame:
-    """Parse the server-rendered Fexant historical table.
+def parse_fexant_fx(url: str) -> tuple[pd.DataFrame, str]:
+    """Parse Fexant history, with a validated prior-snapshot fallback.
 
-    Fexant's plain currency-pair URL may not render a historical table to
-    non-browser clients. Supplying explicit start/end dates returns the
-    server-rendered Exchange Rate History table that pd.read_html can parse.
+    The public Fexant page can be readable in a browser/search index but fail to
+    expose its history table to GitHub Actions runners. In that case, retain the
+    previously validated USD/BDT history rather than blocking the entire market
+    refresh. New benchmark observations are still ingested; FX is carried
+    forward from the latest validated observation through the merge_asof step.
     """
     parts = urlsplit(url)
     query = dict(parse_qsl(parts.query, keep_blank_values=True))
@@ -123,33 +125,47 @@ def parse_fexant_fx(url: str) -> pd.DataFrame:
     query["end_date"] = today.isoformat()
     history_url = urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
 
-    tables = pd.read_html(io.StringIO(get(history_url)))
-    candidates: list[pd.DataFrame] = []
-    for frame in tables:
-        columns = _flat_columns(frame)
-        date_col = next((c for c in columns if c == "date" or c.startswith("date ")), None)
-        mid_col = next((c for c in columns if c in {"mid", "mid rate", "middle"} or c.startswith("mid ")), None)
-        buy_col = next((c for c in columns if "buy" in c), None)
-        sell_col = next((c for c in columns if "sell" in c), None)
-        if date_col is None or (mid_col is None and not (buy_col and sell_col)):
-            continue
-        frame = frame.copy()
-        frame.columns = columns
-        frame["date"] = pd.to_datetime(frame[date_col], errors="coerce", dayfirst=False)
-        if mid_col:
-            frame["usd_bdt"] = pd.to_numeric(frame[mid_col], errors="coerce")
-        else:
-            frame["usd_bdt"] = (
-                pd.to_numeric(frame[buy_col], errors="coerce")
-                + pd.to_numeric(frame[sell_col], errors="coerce")
-            ) / 2
-        out = frame[["date", "usd_bdt"]].dropna().drop_duplicates("date").sort_values("date")
-        if not out.empty:
-            candidates.append(out)
-    if not candidates:
+    try:
+        tables = pd.read_html(io.StringIO(get(history_url)))
+        candidates: list[pd.DataFrame] = []
+        for frame in tables:
+            columns = _flat_columns(frame)
+            date_col = next((c for c in columns if c == "date" or c.startswith("date ")), None)
+            mid_col = next((c for c in columns if c in {"mid", "mid rate", "middle"} or c.startswith("mid ")), None)
+            buy_col = next((c for c in columns if "buy" in c), None)
+            sell_col = next((c for c in columns if "sell" in c), None)
+            if date_col is None or (mid_col is None and not (buy_col and sell_col)):
+                continue
+            frame = frame.copy()
+            frame.columns = columns
+            frame["date"] = pd.to_datetime(frame[date_col], errors="coerce", dayfirst=False)
+            if mid_col:
+                frame["usd_bdt"] = pd.to_numeric(frame[mid_col], errors="coerce")
+            else:
+                frame["usd_bdt"] = (
+                    pd.to_numeric(frame[buy_col], errors="coerce")
+                    + pd.to_numeric(frame[sell_col], errors="coerce")
+                ) / 2
+            out = frame[["date", "usd_bdt"]].dropna().drop_duplicates("date").sort_values("date")
+            if not out.empty:
+                candidates.append(out)
+        if candidates:
+            return max(candidates, key=len).reset_index(drop=True), "fexant_live"
         raise RuntimeError(f"Could not find a historical USD/BDT table at {history_url}")
-    return max(candidates, key=len).reset_index(drop=True)
-
+    except Exception as exc:
+        fallback_path = DATA / "market_history.csv"
+        if not fallback_path.exists():
+            raise RuntimeError(
+                f"Fexant historical retrieval failed and no validated FX snapshot exists: {exc}"
+            ) from exc
+        old = pd.read_csv(fallback_path, parse_dates=["date"])
+        fallback = old[["date", "usd_bdt"]].dropna().drop_duplicates("date").sort_values("date")
+        if len(fallback) < MIN_OBS:
+            raise RuntimeError(
+                f"Fexant historical retrieval failed and fallback FX snapshot is too small: {exc}"
+            ) from exc
+        print(f"WARNING: Fexant history unavailable; using prior validated FX snapshot ({len(fallback)} rows). Reason: {exc}")
+        return fallback.reset_index(drop=True), "validated_snapshot_fallback"
 
 def validate_market(df: pd.DataFrame) -> dict:
     required = {"date", *SERIES, "usd_bdt"}
@@ -217,7 +233,7 @@ def validate_refresh_against_previous(new_df: pd.DataFrame, old_path: Path) -> N
 
 def main() -> None:
     market_frames = [parse_alghaf(URLS[key], key) for key in SERIES]
-    fx = parse_fexant_fx(URLS["usd_bdt_history_mirror"])
+    fx, fx_mode = parse_fexant_fx(URLS["usd_bdt_history_mirror"])
 
     merged = market_frames[0]
     for frame in market_frames[1:]:
@@ -262,7 +278,10 @@ def main() -> None:
         "coverage": coverage,
         "freshness_days": freshness,
         "sources": URLS,
-        "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant; explicit dated history query is used for machine-readable retrieval; direct Bangladesh Bank 05:00 PM table retained as a current-reference health check.",
+        "fx_method": ("Bangladesh Bank-attributed historical daily midpoint via Fexant; explicit dated history query is preferred. "
+                      "When the Fexant history table is unavailable to the automated runner, the previous validated FX snapshot is retained "
+                      "to avoid fabricating rates; direct Bangladesh Bank 05:00 PM table remains a current-reference health check."),
+        "fx_retrieval_mode": fx_mode,
         "market_method": "Alghaf Marine public APAG archive mid observations; the ingestion job selects the largest valid Date/Mid table, bypasses intermediary caches, and retains sparse source dates without synthetic benchmark values.",
         "validation": {
             "minimum_observations_per_series": MIN_OBS,
