@@ -31,6 +31,24 @@ jobs:
       - name: Test repository
         run: pytest -q
 
+      - name: Bust browser cache for refreshed model
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          root = Path(".")
+          index = root / "index.html"
+          update = json.loads((root / "data" / "market_update.json").read_text(encoding="utf-8"))
+          version = update["updated_at_utc"].replace(":", "").replace("-", "").replace("+00:00", "Z")
+          text = index.read_text(encoding="utf-8")
+          text = re.sub(r'data/model\.js\?v=[^"\']+', f'data/model.js?v={version}', text)
+          if 'data/model.js?v=' not in text:
+              text = text.replace('data/model.js', f'data/model.js?v={version}')
+          index.write_text(text, encoding="utf-8")
+          PY
+
       - name: Commit refreshed model snapshot
         run: |
           git config user.name "github-actions[bot]"
