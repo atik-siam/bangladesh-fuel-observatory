@@ -4,19 +4,20 @@
     "name": "Bangladesh Fuel Observatory",
     "short_name": "BFO"
   },
-  "generated_at_utc": "2026-09-26T21:44:15.028519+00:00",
+  "generated_at_utc": "2026-09-26T22:53:59.119350+00:00",
   "data_snapshot": {
-    "updated_at_utc": "2026-09-27T00:00:00+00:00",
-    "snapshot_type": "bundled_source_snapshot",
+    "updated_at_utc": "2026-09-26T22:53:58.743321+00:00",
+    "snapshot_type": "live_pipeline_output",
     "sources": {
       "gasoil_10ppm": "https://alghafmarine.com/prices/history/gasoil-10-ag/",
       "ron92": "https://alghafmarine.com/prices/history/ron92-ag/",
       "ron95": "https://alghafmarine.com/prices/history/ron95-ag/",
       "usd_bdt_current": "https://www.bb.org.bd/en/index.php/econdata/rfrexrate",
-      "usd_bdt_history_mirror": "https://www.fexant.com/currency-pair/BB/USD-BDT"
+      "usd_bdt_history_mirror": "https://www.fexant.com/currency-pair/BB/USD-BDT",
+      "pricing_guideline": "https://www.dpp.gov.bd/upload_file/gazettes/57563_32179.pdf"
     },
-    "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant for consistent market-history dates; direct Bangladesh Bank 05:00 PM reference-rate page is treated as the preferred current official check.",
-    "market_method": "Alghaf Marine APAG public archive mid observations; no synthetic benchmark values are created.",
+    "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant; explicit dated history query is preferred. When the Fexant history table is unavailable to the automated runner, the previous validated FX snapshot is retained to avoid fabricating rates; direct Bangladesh Bank 05:00 PM table remains a current-reference health check.",
+    "market_method": "Alghaf Marine public APAG archive mid observations; the ingestion job selects the largest valid Date/Mid table, bypasses intermediary caches, and retains sparse source dates without synthetic benchmark values.",
     "validation": {
       "minimum_observations_per_series": 60,
       "status": "passed"
@@ -50,35 +51,35 @@
     }
   },
   "data_coverage": {
-    "market_rows": 138,
+    "market_rows": 139,
     "market_start": "2026-01-26",
-    "market_end": "2026-09-24",
+    "market_end": "2026-09-25",
     "official_events": 11,
     "official_start": "2026-01-01",
     "official_end": "2026-09-21",
     "by_series": {
       "diesel": {
         "benchmark": "gasoil_10ppm",
-        "observations": 138,
+        "observations": 139,
         "start": "2026-01-26",
-        "latest": "2026-09-24"
+        "latest": "2026-09-25"
       },
       "petrol": {
         "benchmark": "ron92",
-        "observations": 136,
+        "observations": 139,
         "start": "2026-01-26",
-        "latest": "2026-09-21"
+        "latest": "2026-09-25"
       },
       "octane": {
         "benchmark": "ron95",
-        "observations": 131,
+        "observations": 139,
         "start": "2026-01-26",
-        "latest": "2026-09-14"
+        "latest": "2026-09-25"
       },
       "usd_bdt": {
-        "observations": 138,
+        "observations": 139,
         "start": "2026-01-26",
-        "latest": "2026-09-24"
+        "latest": "2026-09-25"
       }
     }
   },
@@ -88,27 +89,27 @@
       "label": "Diesel",
       "benchmark": "gasoil_10ppm",
       "benchmark_label": "Gasoil 10 ppm FOB Arab Gulf",
-      "model_cutoff_date": "2026-09-24",
-      "latest_benchmark_usd_bbl": 162.6,
-      "latest_benchmark_date": "2026-09-24",
+      "model_cutoff_date": "2026-09-25",
+      "latest_benchmark_usd_bbl": 158.0,
+      "latest_benchmark_date": "2026-09-25",
       "latest_fx_usd_bdt": 123.2,
-      "latest_market_value_tk_l": 126.0,
-      "market_signal_tk_l": 125.41,
-      "market_signal_benchmark_mean_usd_bbl": 162.1476,
-      "market_signal_fx_mean_usd_bdt": 122.956667,
+      "latest_market_value_tk_l": 122.43,
+      "market_signal_tk_l": 126.14,
+      "market_signal_benchmark_mean_usd_bbl": 163.0762,
+      "market_signal_fx_mean_usd_bdt": 122.975,
       "window_observations": 21,
-      "window_start": "2026-08-26",
-      "window_end": "2026-09-24",
+      "window_start": "2026-08-27",
+      "window_end": "2026-09-25",
       "domestic_calibration_residual_tk_l": -0.19,
       "calibration_events": 9,
-      "calibration_cutoff_date": "2026-09-23",
+      "calibration_cutoff_date": "2026-09-24",
       "calibration_excludes_same_day_official_event": true,
-      "estimated_retail_tk_l": 125.21,
+      "estimated_retail_tk_l": 125.95,
       "official_reference_tk_l": 135.0,
       "official_reference_date": "2026-09-21",
       "latest_official_overall_tk_l": 135.0,
       "latest_official_overall_date": "2026-09-21",
-      "gap_tk_l": -9.79,
+      "gap_tk_l": -9.05,
       "eligible_backtest_events": 9,
       "official_events_total": 11,
       "official_nonzero_change_events": 2,
@@ -147,8 +148,8 @@
           "date": "2026-01-01",
           "official_price": 102.0,
           "window_observations": 0,
-          "window_start": null,
-          "window_end": null,
+          "window_start": NaN,
+          "window_end": NaN,
           "eligible": false,
           "reason": "insufficient_market_window",
           "source_name": "The Daily Star",
@@ -271,27 +272,27 @@
       "label": "Petrol",
       "benchmark": "ron92",
       "benchmark_label": "RON92 FOB Arab Gulf",
-      "model_cutoff_date": "2026-09-21",
-      "latest_benchmark_usd_bbl": 128.8,
-      "latest_benchmark_date": "2026-09-21",
-      "latest_fx_usd_bdt": 122.725,
-      "latest_market_value_tk_l": 99.42,
-      "market_signal_tk_l": 92.7,
-      "market_signal_benchmark_mean_usd_bbl": 119.8952,
-      "market_signal_fx_mean_usd_bdt": 122.915714,
+      "model_cutoff_date": "2026-09-25",
+      "latest_benchmark_usd_bbl": 127.5,
+      "latest_benchmark_date": "2026-09-25",
+      "latest_fx_usd_bdt": 123.2,
+      "latest_market_value_tk_l": 98.8,
+      "market_signal_tk_l": 95.35,
+      "market_signal_benchmark_mean_usd_bbl": 123.2619,
+      "market_signal_fx_mean_usd_bdt": 122.975,
       "window_observations": 21,
-      "window_start": "2026-08-24",
-      "window_end": "2026-09-21",
-      "domestic_calibration_residual_tk_l": 52.42,
-      "calibration_events": 8,
-      "calibration_cutoff_date": "2026-09-20",
+      "window_start": "2026-08-27",
+      "window_end": "2026-09-25",
+      "domestic_calibration_residual_tk_l": 59.47,
+      "calibration_events": 9,
+      "calibration_cutoff_date": "2026-09-24",
       "calibration_excludes_same_day_official_event": true,
-      "estimated_retail_tk_l": 145.12,
+      "estimated_retail_tk_l": 154.82,
       "official_reference_tk_l": 160.0,
       "official_reference_date": "2026-09-21",
       "latest_official_overall_tk_l": 160.0,
       "latest_official_overall_date": "2026-09-21",
-      "gap_tk_l": -14.88,
+      "gap_tk_l": -5.18,
       "eligible_backtest_events": 9,
       "official_events_total": 11,
       "official_nonzero_change_events": 3,
@@ -330,8 +331,8 @@
           "date": "2026-01-01",
           "official_price": 118.0,
           "window_observations": 0,
-          "window_start": null,
-          "window_end": null,
+          "window_start": NaN,
+          "window_end": NaN,
           "eligible": false,
           "reason": "insufficient_market_window",
           "source_name": "The Daily Star",
@@ -454,27 +455,27 @@
       "label": "Octane",
       "benchmark": "ron95",
       "benchmark_label": "RON95 FOB Arab Gulf",
-      "model_cutoff_date": "2026-09-14",
-      "latest_benchmark_usd_bbl": 138.7,
-      "latest_benchmark_date": "2026-09-14",
-      "latest_fx_usd_bdt": 123.18,
-      "latest_market_value_tk_l": 107.46,
-      "market_signal_tk_l": 91.04,
-      "market_signal_benchmark_mean_usd_bbl": 117.919,
-      "market_signal_fx_mean_usd_bdt": 122.732857,
+      "model_cutoff_date": "2026-09-25",
+      "latest_benchmark_usd_bbl": 133.9,
+      "latest_benchmark_date": "2026-09-25",
+      "latest_fx_usd_bdt": 123.2,
+      "latest_market_value_tk_l": 103.76,
+      "market_signal_tk_l": 99.24,
+      "market_signal_benchmark_mean_usd_bbl": 128.2952,
+      "market_signal_fx_mean_usd_bdt": 122.975,
       "window_observations": 21,
-      "window_start": "2026-08-17",
-      "window_end": "2026-09-14",
-      "domestic_calibration_residual_tk_l": 55.15,
-      "calibration_events": 8,
-      "calibration_cutoff_date": "2026-09-13",
+      "window_start": "2026-08-27",
+      "window_end": "2026-09-25",
+      "domestic_calibration_residual_tk_l": 61.45,
+      "calibration_events": 9,
+      "calibration_cutoff_date": "2026-09-24",
       "calibration_excludes_same_day_official_event": true,
-      "estimated_retail_tk_l": 146.19,
-      "official_reference_tk_l": 145.0,
-      "official_reference_date": "2026-09-01",
+      "estimated_retail_tk_l": 160.69,
+      "official_reference_tk_l": 165.0,
+      "official_reference_date": "2026-09-21",
       "latest_official_overall_tk_l": 165.0,
       "latest_official_overall_date": "2026-09-21",
-      "gap_tk_l": 1.19,
+      "gap_tk_l": -4.31,
       "eligible_backtest_events": 9,
       "official_events_total": 11,
       "official_nonzero_change_events": 3,
@@ -482,10 +483,10 @@
       "regression": {
         "status": "exploratory",
         "n": 9,
-        "intercept_tk_l": -3264.762213,
-        "market_signal_slope": 0.124295,
-        "fx_slope_tk_per_tk_usd": 27.641362,
-        "r2_in_sample": 0.369368,
+        "intercept_tk_l": -3363.110553,
+        "market_signal_slope": 0.153558,
+        "fx_slope_tk_per_tk_usd": 28.419756,
+        "r2_in_sample": 0.413444,
         "warning": "In-sample diagnostic only; coefficient estimates are not a forecast-performance result."
       },
       "walk_forward_regression": {
@@ -495,10 +496,10 @@
         "minimum_reportable_predictions": 6,
         "metrics": {
           "n": 3,
-          "mae_tk_l": 30.133,
-          "rmse_tk_l": 39.677,
-          "mape_pct": 20.089,
-          "mean_error_tk_l": 12.574
+          "mae_tk_l": 29.714,
+          "rmse_tk_l": 39.42,
+          "mape_pct": 19.835,
+          "mean_error_tk_l": 12.993
         },
         "warning": "Walk-forward predictions are withheld as headline evidence until the configured prediction count is reached."
       },
@@ -513,8 +514,8 @@
           "date": "2026-01-01",
           "official_price": 122.0,
           "window_observations": 0,
-          "window_start": null,
-          "window_end": null,
+          "window_start": NaN,
+          "window_end": NaN,
           "eligible": false,
           "reason": "insufficient_market_window",
           "source_name": "The Daily Star",
@@ -622,9 +623,9 @@
         {
           "date": "2026-09-21",
           "official_price": 165.0,
-          "window_observations": 16,
+          "window_observations": 20,
           "window_start": "2026-08-24",
-          "window_end": "2026-09-14",
+          "window_end": "2026-09-18",
           "eligible": true,
           "reason": "eligible",
           "source_name": "The Daily Star",
@@ -1951,8 +1952,8 @@
       "diesel_market_value": 140.6818,
       "petrol_benchmark": 132.4,
       "petrol_market_value": 102.6807,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "octane_benchmark": 138.8,
+      "octane_market_value": 107.6441
     },
     {
       "date": "2026-09-16",
@@ -1961,8 +1962,8 @@
       "diesel_market_value": 144.9552,
       "petrol_benchmark": 135.8,
       "petrol_market_value": 105.2107,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "octane_benchmark": 142.3,
+      "octane_market_value": 110.2466
     },
     {
       "date": "2026-09-17",
@@ -1971,8 +1972,8 @@
       "diesel_market_value": 137.4985,
       "petrol_benchmark": 133.6,
       "petrol_market_value": 103.3172,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "octane_benchmark": 140.1,
+      "octane_market_value": 108.3438
     },
     {
       "date": "2026-09-18",
@@ -1981,8 +1982,8 @@
       "diesel_market_value": 131.2345,
       "petrol_benchmark": 132.7,
       "petrol_market_value": 102.6212,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "octane_benchmark": 139.1,
+      "octane_market_value": 107.5705
     },
     {
       "date": "2026-09-21",
@@ -1991,28 +1992,38 @@
       "diesel_market_value": 125.0506,
       "petrol_benchmark": 128.8,
       "petrol_market_value": 99.4229,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "octane_benchmark": 135.2,
+      "octane_market_value": 104.3632
     },
     {
       "date": "2026-09-23",
       "usd_bdt": 123.015,
       "diesel_benchmark": 164.2,
       "diesel_market_value": 127.0483,
-      "petrol_benchmark": null,
-      "petrol_market_value": null,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "petrol_benchmark": 126.7,
+      "petrol_market_value": 98.033,
+      "octane_benchmark": 133.1,
+      "octane_market_value": 102.9849
     },
     {
       "date": "2026-09-24",
       "usd_bdt": 123.2,
       "diesel_benchmark": 162.6,
       "diesel_market_value": 125.9995,
-      "petrol_benchmark": null,
-      "petrol_market_value": null,
-      "octane_benchmark": null,
-      "octane_market_value": null
+      "petrol_benchmark": 129.1,
+      "petrol_market_value": 100.0402,
+      "octane_benchmark": 135.4,
+      "octane_market_value": 104.9221
+    },
+    {
+      "date": "2026-09-25",
+      "usd_bdt": 123.2,
+      "diesel_benchmark": 158.0,
+      "diesel_market_value": 122.4349,
+      "petrol_benchmark": 127.5,
+      "petrol_market_value": 98.8003,
+      "octane_benchmark": 133.9,
+      "octane_market_value": 103.7597
     }
   ],
   "official_history": [
@@ -2166,10 +2177,10 @@
     "octane": {
       "primary_expanding_calibration": {
         "n": 8,
-        "mae_tk_l": 16.464,
-        "rmse_tk_l": 20.538,
-        "mape_pct": 12.02,
-        "mean_error_tk_l": -4.362
+        "mae_tk_l": 16.072,
+        "rmse_tk_l": 20.24,
+        "mape_pct": 11.782,
+        "mean_error_tk_l": -3.971
       },
       "naive_previous_official": {
         "n": 10,
@@ -2180,10 +2191,10 @@
       },
       "walk_forward_regression": {
         "n": 3,
-        "mae_tk_l": 30.133,
-        "rmse_tk_l": 39.677,
-        "mape_pct": 20.089,
-        "mean_error_tk_l": 12.574
+        "mae_tk_l": 29.714,
+        "rmse_tk_l": 39.42,
+        "mape_pct": 19.835,
+        "mean_error_tk_l": 12.993
       }
     }
   },
@@ -2484,10 +2495,10 @@
       {
         "date": "2026-09-21",
         "official": 165.0,
-        "primary": 147.94,
+        "primary": 151.07,
         "naive": 145.0,
         "eligible": true,
-        "window_observations": 16,
+        "window_observations": 20,
         "reason": "eligible"
       }
     ]
@@ -2565,34 +2576,34 @@
       {
         "window_days": 14,
         "n": 8,
-        "mae_tk_l": 15.053,
-        "rmse_tk_l": 21.133,
-        "mape_pct": 11.239,
-        "mean_error_tk_l": -2.235
+        "mae_tk_l": 14.703,
+        "rmse_tk_l": 21.006,
+        "mape_pct": 11.028,
+        "mean_error_tk_l": -1.886
       },
       {
         "window_days": 30,
         "n": 8,
-        "mae_tk_l": 16.464,
-        "rmse_tk_l": 20.538,
-        "mape_pct": 12.02,
-        "mean_error_tk_l": -4.362
+        "mae_tk_l": 16.072,
+        "rmse_tk_l": 20.24,
+        "mape_pct": 11.782,
+        "mean_error_tk_l": -3.971
       },
       {
         "window_days": 45,
         "n": 8,
-        "mae_tk_l": 16.78,
-        "rmse_tk_l": 19.179,
-        "mape_pct": 11.997,
-        "mean_error_tk_l": -5.9
+        "mae_tk_l": 16.466,
+        "rmse_tk_l": 18.858,
+        "mape_pct": 11.806,
+        "mean_error_tk_l": -5.586
       },
       {
         "window_days": 60,
         "n": 8,
-        "mae_tk_l": 13.028,
-        "rmse_tk_l": 15.165,
-        "mape_pct": 9.222,
-        "mean_error_tk_l": -4.142
+        "mae_tk_l": 12.747,
+        "rmse_tk_l": 14.734,
+        "mape_pct": 9.051,
+        "mean_error_tk_l": -3.861
       }
     ]
   },
@@ -2622,7 +2633,7 @@
         "primary_mae_relation": "higher"
       },
       "octane": {
-        "primary_mae_tk_l": 16.464,
+        "primary_mae_tk_l": 16.072,
         "naive_mae_tk_l": 4.7,
         "primary_mae_relation": "higher"
       }
