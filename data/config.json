@@ -1,0 +1,33 @@
+{
+  "schema_version": "4.0",
+  "barrel_litres": 158.9873,
+  "policy_window_days": 30,
+  "minimum_window_observations": 4,
+  "minimum_exploratory_events": 6,
+  "minimum_regression_events": 12,
+  "minimum_bootstrap_events": 12,
+  "walk_forward_min_train": 6,
+  "walk_forward_min_reportable": 6,
+  "minimum_market_observations_per_series": 60,
+  "benchmark_mapping": {
+    "diesel": "gasoil_10ppm",
+    "petrol": "ron92",
+    "octane": "ron95"
+  },
+  "sources": {
+    "gasoil_10ppm": "https://alghafmarine.com/prices/history/gasoil-10-ag/",
+    "ron92": "https://alghafmarine.com/prices/history/ron92-ag/",
+    "ron95": "https://alghafmarine.com/prices/history/ron95-ag/",
+    "usd_bdt_current": "https://www.bb.org.bd/en/index.php/econdata/rfrexrate",
+    "usd_bdt_history_mirror": "https://www.fexant.com/currency-pair/BB/USD-BDT",
+    "pricing_guideline": "https://www.dpp.gov.bd/upload_file/gazettes/57563_32179.pdf"
+  },
+  "source_notes": {
+    "market_archive": "Alghaf Marine public APAG archive indications; non-binding market information, not a licensed assessment or commercial offer. Source archives are as-available observations rather than a guaranteed daily feed; the website shows the source observation date and provides a direct verification link.",
+    "fx_model_history": "Bangladesh Bank-attributed historical Buy/Sell midpoint via Fexant for consistent daily history; direct Bangladesh Bank reference-rate page is retained as the current official reference source.",
+    "official_prices": "Version-controlled public reporting of Bangladesh government fuel-price decisions; each row carries its source URL and source tier. The website separately shows the official price known at a model cutoff and the latest overall official event when it occurs later.",
+    "policy_window": "30 calendar days is a transparent proxy for the prior-period/moving-average concept in the published automatic-pricing framework, not a claim to reproduce BPC's private accounting or proprietary data feed."
+  },
+  "project_name": "Bangladesh Fuel Observatory",
+  "project_short_name": "BFO"
+}

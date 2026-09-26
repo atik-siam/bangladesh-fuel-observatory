@@ -1,0 +1,55 @@
+{
+  "schema_version": "4.0",
+  "updated_at_utc": "2026-09-27T00:00:00+00:00",
+  "snapshot_type": "bundled_source_snapshot",
+  "snapshot_prepared_from_public_sources": true,
+  "market_rows": 138,
+  "coverage": {
+    "gasoil_10ppm": {
+      "observations": 138,
+      "start": "2026-01-26",
+      "latest": "2026-09-24"
+    },
+    "ron92": {
+      "observations": 136,
+      "start": "2026-01-26",
+      "latest": "2026-09-21"
+    },
+    "ron95": {
+      "observations": 131,
+      "start": "2026-01-26",
+      "latest": "2026-09-14"
+    },
+    "usd_bdt": {
+      "observations": 138,
+      "start": "2026-01-26",
+      "latest": "2026-09-24"
+    }
+  },
+  "freshness_days_as_of_2026_09_27": {
+    "gasoil_10ppm": 3,
+    "ron92": 6,
+    "ron95": 13,
+    "usd_bdt": 3
+  },
+  "sources": {
+    "gasoil_10ppm": "https://alghafmarine.com/prices/history/gasoil-10-ag/",
+    "ron92": "https://alghafmarine.com/prices/history/ron92-ag/",
+    "ron95": "https://alghafmarine.com/prices/history/ron95-ag/",
+    "usd_bdt_current": "https://www.bb.org.bd/en/index.php/econdata/rfrexrate",
+    "usd_bdt_history_mirror": "https://www.fexant.com/currency-pair/BB/USD-BDT"
+  },
+  "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant for consistent market-history dates; direct Bangladesh Bank 05:00 PM reference-rate page is treated as the preferred current official check.",
+  "market_method": "Alghaf Marine APAG public archive mid observations; no synthetic benchmark values are created.",
+  "validation": {
+    "minimum_observations_per_series": 60,
+    "status": "passed"
+  },
+  "bangladesh_bank_current_check": {
+    "status": "available_from_public_page_snapshot",
+    "date": "2026-09-24",
+    "direct_05pm_reference_tk_per_usd": 123.1754,
+    "historical_mirror_mid_tk_per_usd": 123.2,
+    "note": "The model uses the consistent historical midpoint series for its dated market observations; the direct Bangladesh Bank rate is retained as a current-source cross-check rather than mixed into the historical series."
+  }
+}

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bangladesh Fuel Observatory — Fuel Price Analytics & Market Observatory</title>
+  <meta name="description" content="A reproducible market-linked fuel-price observatory for Bangladesh, combining international refined-product benchmarks, USD/BDT and official price events.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Bangladesh Fuel Observatory home"><span class="brand-mark">BFO</span><span><strong>Bangladesh Fuel Observatory</strong><small>Fuel Price Analytics & Market Observatory</small></span></a>
+    <nav aria-label="Primary navigation"><a href="#estimates">Estimates</a><a href="#evidence">Evidence</a><a href="#lab">Scenario Lab</a><a href="#method">Method</a></nav>
+  </div>
+</header>
+<main id="top" class="wrap">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">BANGLADESH FUEL PRICE INTELLIGENCE</p>
+      <h1>How do international fuel markets translate into Bangladesh retail prices?</h1>
+      <p class="hero-copy">Bangladesh Fuel Observatory converts grade-specific international refined-product benchmarks and USD/BDT into a Tk/litre market signal, adds an explicitly calibrated domestic layer, and tests the relationship against published Bangladesh price events.</p>
+      <div class="hero-actions"><a class="button primary" href="#estimates">View current estimates</a><a class="button ghost" href="#method">Understand the method</a></div>
+    </div>
+    <div class="hero-meta">
+      <div><span>Market data through</span><strong id="marketDate">—</strong></div>
+      <div><span>Official events through</span><strong id="officialDate">—</strong></div>
+      <div><span>Snapshot refreshed</span><strong id="snapshotDate">—</strong></div>
+      <div><span>Model generated</span><strong id="modelDate">—</strong></div>
+      <div><span>Reference window</span><strong id="window">—</strong></div>
+      <div><span>Research status</span><strong id="researchStatus">—</strong></div>
+    </div>
+  </section>
+
+  <section class="section read-section">
+    <div class="section-heading"><div><p class="eyebrow">READ THE NUMBERS CORRECTLY</p><h2>Three different numbers answer three different questions</h2></div></div>
+    <div class="read-grid">
+      <article class="read-card"><span class="number">01</span><h3>International benchmark equivalent</h3><p>The selected refined-product benchmark in USD/barrel converted to Bangladeshi taka per litre using the aligned USD/BDT rate.</p><strong>Market-equivalent value — not a retail price.</strong></article>
+      <article class="read-card"><span class="number">02</span><h3>Model-implied retail estimate</h3><p>The prior market-window signal plus the domestic calibration estimated from earlier official events.</p><strong>Independent model output — not an official quote.</strong></article>
+      <article class="read-card"><span class="number">03</span><h3>Official Bangladesh price</h3><p>The published Bangladesh retail-price event available at or before the model's market-data cutoff.</p><strong>Observed reference used for comparison.</strong></article>
+    </div>
+    <div class="callout"><strong>Bangladesh Fuel Observatory does not define a single “fair price.”</strong> It reports the international benchmark equivalent, an independent model-implied retail estimate, and the official Bangladesh price separately so their differences can be examined without mixing concepts.</div>
+  </section>
+
+  <section id="estimates" class="section">
+    <div class="section-heading"><div><p class="eyebrow">CURRENT VIEW</p><h2>Market-linked retail estimates</h2></div><p class="muted">Each card is calculated as of that fuel's latest benchmark observation. Same-day official prices are never used to calibrate that estimate. Source observation, model cutoff, and official-event dates are kept separate.</p></div>
+    <div class="cards" id="fuelCards"></div>
+  </section>
+
+  <section id="evidence" class="section grid-2">
+    <div class="panel">
+      <div class="panel-head"><div><p class="eyebrow">MARKET HISTORY</p><h2>International benchmark equivalent</h2></div><select id="chartFuel" aria-label="Choose fuel for market history"><option value="diesel">Diesel</option><option value="petrol">Petrol</option><option value="octane">Octane</option></select></div>
+      <div id="historyChart" class="chart-box"></div>
+      <p id="chartCaption" class="source-note">—</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><p class="eyebrow">VALIDATION</p><h2>Expanding-calibration backtest</h2></div><select id="backtestFuel" aria-label="Choose fuel for backtest"><option value="diesel">Diesel</option><option value="petrol">Petrol</option><option value="octane">Octane</option></select></div>
+      <div id="backtestChart" class="chart-box compact-chart"></div>
+      <div class="table-wrap"><table id="backtest"><thead><tr><th>Fuel</th><th>Model</th><th>N</th><th>MAE</th><th>RMSE</th><th>MAPE</th><th>Bias</th></tr></thead><tbody></tbody></table></div><div id="backtestComparison"></div>
+      <p class="source-note">Primary = expanding median domestic calibration. Naive = previous official price. The naive baseline is a reference, not a competing claim. Results are descriptive while the official-event sample remains below the headline threshold.</p>
+    </div>
+  </section>
+
+  <section id="lab" class="section panel scenario">
+    <div class="panel-head"><div><p class="eyebrow">SCENARIO LAB</p><h2>Explore hypothetical market conditions</h2></div><select id="scenarioFuel" aria-label="Choose fuel for scenario analysis"><option value="diesel">Diesel</option><option value="petrol">Petrol</option><option value="octane">Octane</option></select></div>
+    <p class="scenario-intro">A what-if experiment. Move the benchmark and exchange-rate inputs to see the <strong>international benchmark equivalent</strong> and the resulting <strong>model-implied retail estimate</strong>. The scenario is hypothetical and does not state what the government should charge.</p>
+    <div class="scenario-grid">
+      <div class="control"><label for="scenarioBenchmark"><span>Refined-product benchmark</span><output id="scenarioBenchmarkValue">—</output></label><input id="scenarioBenchmark" type="range" min="50" max="300" step="0.1"></div>
+      <div class="control"><label for="scenarioFx"><span>USD/BDT</span><output id="scenarioFxValue">—</output></label><input id="scenarioFx" type="range" min="90" max="160" step="0.01"></div>
+      <div class="scenario-stats">
+        <div class="scenario-stat"><span>International benchmark equivalent</span><strong id="scenarioMarketValue">Tk — / litre</strong><small id="scenarioMarketNote">Benchmark × FX ÷ 158.9873.</small><a id="scenarioBenchmarkSource" class="inline-source" href="#" target="_blank" rel="noreferrer">Verify benchmark ↗</a></div>
+        <div class="scenario-stat"><span>Domestic calibration component</span><strong id="scenarioCalibration">+Tk — / litre</strong><small>Empirical residual component; not a government cost ledger.</small></div>
+        <div class="scenario-stat featured"><span>Model-implied retail estimate</span><strong id="scenarioValue">Tk — / litre</strong><small>Hypothetical model result under the selected inputs.</small></div>
+        <div class="scenario-stat reference"><span>Official price known at model cutoff</span><strong id="scenarioOfficial">Tk — / litre</strong><small id="scenarioOfficialDate">Effective —</small><small id="scenarioGap">—</small><div id="scenarioOfficialContext" class="scenario-note">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="method" class="section">
+    <div class="section-heading"><div><p class="eyebrow">HOW IT WORKS</p><h2>Three analytical layers</h2></div></div>
+    <div class="method-grid">
+      <article><span>01</span><h3>Market transformation</h3><p>Diesel uses Gasoil 10 ppm, petrol uses RON92, and octane uses RON95. Each USD/barrel benchmark is converted to Tk/litre using the corresponding FX observation.</p></article>
+      <article><span>02</span><h3>Prior market window</h3><p>For an official event, the model uses only market observations strictly before the event and within the previous 30 calendar days. Missing benchmark observations remain missing.</p></article>
+      <article><span>03</span><h3>Domestic calibration</h3><p>The official price minus the market-window signal is a residual. The primary estimator uses the median of earlier eligible residuals and never calibrates an event with its own same-day official price.</p></article>
+    </div>
+    <div class="formula-panel">
+      <div><span class="formula-label">International benchmark equivalent</span><code>Benchmark (USD/bbl) × USD/BDT ÷ 158.9873 = Tk/L</code></div>
+      <div><span class="formula-label">Model-implied retail estimate</span><code>Prior market-window signal + expanding domestic calibration = Tk/L</code></div>
+    </div>
+    <div class="callout"><strong>Why 30 days?</strong> It is a transparent reproducible approximation to the prior-period / moving-average concept described in the published automatic-pricing framework. It is not presented as a reconstruction of BPC's private accounting or proprietary benchmark feed.</div>
+  </section>
+
+  <section class="section grid-2">
+    <div class="panel">
+      <div class="panel-head"><div><p class="eyebrow">RESEARCH STATUS</p><h2>Model diagnostics</h2></div></div>
+      <div id="diagnostics"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><p class="eyebrow">DATA QUALITY</p><h2>Pipeline coverage</h2></div></div>
+      <div id="coverage"></div>
+    </div>
+  </section>
+
+  <section class="section panel">
+    <div class="panel-head"><div><p class="eyebrow">EVENT AUDIT</p><h2>Why an official event is—or is not—usable</h2></div><select id="auditFuel" aria-label="Choose fuel for event audit"><option value="diesel">Diesel</option><option value="petrol">Petrol</option><option value="octane">Octane</option></select></div>
+    <p class="muted">A historical event is usable only when the previous 30 calendar days contain enough matching market observations. This audit makes the sample-size limitation visible instead of hiding it.</p>
+    <div class="table-wrap"><table id="eventAudit"><thead><tr><th>Date</th><th>Official price</th><th>Window observations</th><th>Market window</th><th>Status</th><th>Reason</th><th>Source</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="section panel sources-panel">
+    <div class="panel-head"><div><p class="eyebrow">TRACEABILITY</p><h2>Sources & downloads</h2></div></div>
+    <div class="source-grid">
+      <a href="https://alghafmarine.com/prices/history/gasoil-10-ag/" target="_blank" rel="noreferrer"><strong>Gasoil 10 ppm</strong><span>FOB Arab Gulf archive · indicative, non-binding · Verify source ↗</span></a>
+      <a href="https://alghafmarine.com/prices/history/ron92-ag/" target="_blank" rel="noreferrer"><strong>RON92</strong><span>FOB Arab Gulf archive · indicative, non-binding · Verify source ↗</span></a>
+      <a href="https://alghafmarine.com/prices/history/ron95-ag/" target="_blank" rel="noreferrer"><strong>RON95</strong><span>FOB Arab Gulf archive · indicative, non-binding · Verify source ↗</span></a>
+      <a href="https://www.bb.org.bd/en/index.php/econdata/rfrexrate" target="_blank" rel="noreferrer"><strong>USD/BDT</strong><span>Bangladesh Bank reference-rate source · Verify source ↗</span></a>
+      <a href="https://www.dpp.gov.bd/upload_file/gazettes/57563_32179.pdf" target="_blank" rel="noreferrer"><strong>Pricing framework</strong><span>Bangladesh Gazette — automatic pricing guideline · Verify source ↗</span></a>
+    </div>
+    <div class="downloads"><a class="chip" href="data/market_history.csv" download>Market CSV</a><a class="chip" href="data/official_prices.csv" download>Official-price CSV</a></div>
+  </section>
+
+  <section class="section panel"><div class="panel-head"><div><p class="eyebrow">RESEARCH SCOPE</p><h2>What this project measures and what it does not</h2></div></div><div class="two-col-copy"><div><h3>Measures</h3><p>Historical association between public international refined-product observations, USD/BDT and Bangladesh's published retail price events. It evaluates transparent specifications with time-ordered validation and compares them with a naive previous-price reference.</p></div><div><h3>Does not claim</h3><p>Bangladesh Fuel Observatory does not claim to reproduce BPC's private accounting, define a universally fair price, provide an official forecast, or establish causality. Public benchmark archives are indicative market information rather than licensed commercial assessments.</p></div></div></section>
+
+  <footer class="footer"><p><strong>Bangladesh Fuel Observatory</strong> · independent analytical estimate · not an official government price feed.</p><p class="muted">Reproducible data pipeline · transparent model · time-aware validation · GitHub Pages ready.</p></footer>
+</main>
+<script src="data/model.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

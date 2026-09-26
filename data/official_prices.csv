@@ -1,0 +1,12 @@
+effective_date,diesel,petrol,octane,kerosene,source_url,source_name,source_tier
+2026-01-01,102,118,122,114,https://www.thedailystar.net/news/bangladesh/news/fuel-prices-cut-tk2-litre-january-4071246,The Daily Star,secondary_reported_official
+2026-02-01,100,116,120,112,https://www.thedailystar.net/environment/natural-resources/energy/news/govt-cuts-fuel-prices-tk-2-litre-feb-4095201,The Daily Star,secondary_reported_official
+2026-03-01,100,116,120,112,https://www.tbsnews.net/bangladesh/fuel-prices-unchanged-march-1373721,The Business Standard,secondary_reported_official
+2026-04-01,100,116,120,112,https://online.thedailystar.net/news/environment/natural-resources/energy/news/fuel-prices-unchanged-april-despite-rising-import-costs-4140101,The Daily Star,secondary_reported_official
+2026-04-19,115,135,140,130,https://www.thedailystar.net/news/bangladesh/news/diesel-now-tk-115-octane-tk-140-4154861,The Daily Star,secondary_reported_official
+2026-05-01,115,135,140,130,https://www.thedailystar.net/news/environment/natural-resources/energy/news/fuel-prices-remain-unchanged-throughout-may-4164746,The Daily Star,secondary_reported_official
+2026-06-01,115,140,145,135,https://www.thedailystar.net/news/environment/natural-resources/energy/news/fuel-prices-rise-again-petrol-octane-tk-5-litre-4187466,The Daily Star,secondary_reported_official
+2026-07-01,115,140,145,135,https://www.tbsnews.net/bangladesh/energy/no-change-fuel-prices-july-govt-holds-june-rates-1476216,The Business Standard,secondary_reported_official
+2026-08-01,115,140,145,135,https://www.tbsnews.net/bangladesh/energy/fuel-prices-remain-unchanged-august-1502286,The Business Standard,secondary_reported_official
+2026-09-01,115,140,145,135,https://www.tbsnews.net/bangladesh/energy/fuel-prices-remain-unchanged-september-1529531,The Business Standard,secondary_reported_official
+2026-09-21,135,160,165,155,https://www.thedailystar.net/news/power-and-energy/news/fuel-prices-hiked-tk-20-litre-4278041,The Daily Star,secondary_reported_official
