@@ -3,7 +3,7 @@ from __future__ import annotations
 import io
 import json
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -110,7 +110,20 @@ def parse_bangladesh_bank_fx(url: str) -> pd.DataFrame:
 
 
 def parse_fexant_fx(url: str) -> pd.DataFrame:
-    tables = pd.read_html(io.StringIO(get(url)))
+    """Parse the server-rendered Fexant historical table.
+
+    Fexant's plain currency-pair URL may not render a historical table to
+    non-browser clients. Supplying explicit start/end dates returns the
+    server-rendered Exchange Rate History table that pd.read_html can parse.
+    """
+    parts = urlsplit(url)
+    query = dict(parse_qsl(parts.query, keep_blank_values=True))
+    today = datetime.now(timezone.utc).date()
+    query.setdefault("start_date", (today - timedelta(days=365)).isoformat())
+    query["end_date"] = today.isoformat()
+    history_url = urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
+
+    tables = pd.read_html(io.StringIO(get(history_url)))
     candidates: list[pd.DataFrame] = []
     for frame in tables:
         columns = _flat_columns(frame)
@@ -134,7 +147,7 @@ def parse_fexant_fx(url: str) -> pd.DataFrame:
         if not out.empty:
             candidates.append(out)
     if not candidates:
-        raise RuntimeError(f"Could not find a historical USD/BDT table at {url}")
+        raise RuntimeError(f"Could not find a historical USD/BDT table at {history_url}")
     return max(candidates, key=len).reset_index(drop=True)
 
 
@@ -243,13 +256,13 @@ def main() -> None:
 
     merged["date"] = merged["date"].dt.strftime("%Y-%m-%d")
     meta = {
-        "schema_version": "5.0",
+        "schema_version": "5.1",
         "updated_at_utc": datetime.now(timezone.utc).isoformat(),
         "market_rows": int(len(merged)),
         "coverage": coverage,
         "freshness_days": freshness,
         "sources": URLS,
-        "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant; direct Bangladesh Bank 05:00 PM table retained as a current-reference health check.",
+        "fx_method": "Bangladesh Bank-attributed historical daily midpoint via Fexant; explicit dated history query is used for machine-readable retrieval; direct Bangladesh Bank 05:00 PM table retained as a current-reference health check.",
         "market_method": "Alghaf Marine public APAG archive mid observations; the ingestion job selects the largest valid Date/Mid table, bypasses intermediary caches, and retains sparse source dates without synthetic benchmark values.",
         "validation": {
             "minimum_observations_per_series": MIN_OBS,
