@@ -75,8 +75,9 @@ def test_no_lookahead_in_backtest_rows():
 
 def test_source_metadata():
     update = json.loads((ROOT / "data" / "market_update.json").read_text(encoding="utf-8"))
-    assert update["schema_version"] == "4.0"
+    assert update["schema_version"] == "5.1"
     assert update["validation"]["status"] == "passed"
     assert "bangladesh_bank_current_check" in update
+    assert update.get("fx_retrieval_mode") in {"fexant_live", "validated_snapshot_fallback"}
     for key in ["gasoil_10ppm", "ron92", "ron95"]:
         assert key in update["sources"]
