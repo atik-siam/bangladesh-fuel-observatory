@@ -36,7 +36,7 @@ Bangladesh Fuel Observatory is a pipeline, not a static calculator. It combines:
 
 ## Source verification
 
-The website provides direct **Verify benchmark ↗** links for each international benchmark source and direct verification links for official price events in the audit table. This is intentional: the Observatory transforms public source observations; it does not replace the source of record.
+The website provides direct **Verify benchmark ** links for each international benchmark source and direct verification links for official price events in the audit table. This is intentional: the Observatory transforms public source observations; it does not replace the source of record.
 
 International benchmark archives are **as-available market-indication sources**, not guaranteed daily feeds. The site therefore keeps three dates separate: the source observation date, the model cutoff date, and the latest official Bangladesh price-event date.
 
