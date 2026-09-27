@@ -64,6 +64,7 @@
   <section id="lab" class="section panel scenario">
     <div class="panel-head"><div><p class="eyebrow">SCENARIO LAB</p><h2>Explore hypothetical market conditions</h2></div><select id="scenarioFuel" aria-label="Choose fuel for scenario analysis"><option value="diesel">Diesel</option><option value="petrol">Petrol</option><option value="octane">Octane</option></select></div>
     <p class="scenario-intro">A what-if experiment. Move the benchmark and exchange-rate inputs to see the <strong>international benchmark equivalent</strong> and the resulting <strong>model-implied retail estimate</strong>. The scenario is hypothetical and does not state what the government should charge.</p>
+<div class="callout"><strong>Why can this differ from the dashboard?</strong> The dashboard uses a <strong>30-day market-window signal</strong> before adding the historical domestic calibration. Scenario Lab uses the <strong>benchmark and USD/BDT values you enter directly</strong>. So entering the latest benchmark and exchange rate will not necessarily reproduce the dashboard estimate. This difference is expected.</div>
     <div class="scenario-grid">
       <div class="control"><label for="scenarioBenchmark"><span>Refined-product benchmark</span><output id="scenarioBenchmarkValue">—</output></label><input id="scenarioBenchmark" type="range" min="50" max="300" step="0.1"></div>
       <div class="control"><label for="scenarioFx"><span>USD/BDT</span><output id="scenarioFxValue">—</output></label><input id="scenarioFx" type="range" min="90" max="160" step="0.01"></div>
