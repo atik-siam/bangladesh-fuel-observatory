@@ -1,27 +1,27 @@
 {
   "schema_version": "5.1",
-  "updated_at_utc": "2026-10-02T10:40:32.815680+00:00",
-  "market_rows": 142,
+  "updated_at_utc": "2026-10-03T09:59:29.352121+00:00",
+  "market_rows": 143,
   "coverage": {
     "gasoil_10ppm": {
-      "observations": 142,
+      "observations": 143,
       "start": "2026-01-26",
-      "latest": "2026-09-30"
+      "latest": "2026-10-01"
     },
     "ron92": {
-      "observations": 142,
+      "observations": 143,
       "start": "2026-01-26",
-      "latest": "2026-09-30"
+      "latest": "2026-10-01"
     },
     "ron95": {
-      "observations": 142,
+      "observations": 143,
       "start": "2026-01-26",
-      "latest": "2026-09-30"
+      "latest": "2026-10-01"
     },
     "usd_bdt": {
-      "observations": 142,
+      "observations": 143,
       "start": "2026-01-26",
-      "latest": "2026-09-30"
+      "latest": "2026-10-01"
     }
   },
   "freshness_days": {
