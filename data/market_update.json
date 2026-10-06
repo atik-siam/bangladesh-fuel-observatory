@@ -1,6 +1,6 @@
 {
   "schema_version": "5.1",
-  "updated_at_utc": "2026-10-05T11:45:34.479450+00:00",
+  "updated_at_utc": "2026-10-06T11:26:37.902756+00:00",
   "market_rows": 144,
   "coverage": {
     "gasoil_10ppm": {
@@ -25,10 +25,10 @@
     }
   },
   "freshness_days": {
-    "gasoil_10ppm": 3,
-    "ron92": 3,
-    "ron95": 3,
-    "usd_bdt": 3
+    "gasoil_10ppm": 4,
+    "ron92": 4,
+    "ron95": 4,
+    "usd_bdt": 4
   },
   "sources": {
     "gasoil_10ppm": "https://alghafmarine.com/prices/history/gasoil-10-ag/",

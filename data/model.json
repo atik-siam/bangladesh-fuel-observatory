@@ -4,9 +4,9 @@
     "name": "Bangladesh Fuel Observatory",
     "short_name": "BFO"
   },
-  "generated_at_utc": "2026-10-05T11:45:34.833553+00:00",
+  "generated_at_utc": "2026-10-06T11:26:38.276735+00:00",
   "data_snapshot": {
-    "updated_at_utc": "2026-10-05T11:45:34.479450+00:00",
+    "updated_at_utc": "2026-10-06T11:26:37.902756+00:00",
     "snapshot_type": "live_pipeline_output",
     "sources": {
       "gasoil_10ppm": "https://alghafmarine.com/prices/history/gasoil-10-ag/",
